@@ -21,6 +21,8 @@ examples
 ├─MinimalPowersExample              # Minimal PMU operation example
 ├─MinimalScreenExample              # Minimal screen example
 ├─MinimalSoundDetectionExample      # Minimal ambient sound detection example
+├─SoundMeter                        # OLED noise floor + ESP-NOW sound events (default)
+├─SoundEventReceiver                # Separate firmware for receiving ESP32-S3
 └─QRCodeReader                      # QR code reader example
 ```
 
@@ -32,7 +34,7 @@ examples
 2. Search for the `PlatformIO` plugin in the `VisualStudioCode` extension and install it.
 3. After the installation is complete, you need to restart `VisualStudioCode`
 4. After restarting `VisualStudioCode`, select `File` in the upper left corner of `VisualStudioCode` -> `Open Folder` -> select the `LilyGo-Cam-ESP32S3` directory
-5. Select the `v1_6` environment for the v1.6 I2S microphone board, or `v1_7` for the v1.7 PDM microphone board. To build a minimal example, change `src_dir` in `platformio.ini`.
+5. Select the `v1_6` environment for the v1.6 I2S microphone board, or `v1_7` for the v1.7 PDM microphone board. The default firmware is now the [OLED sound meter](examples/SoundMeter/README.md). To build another example, change `src_dir` in `platformio.ini`.
 6. Click the (✔) symbol in the lower left corner to compile the selected environment
 7. Connect the board to the computer USB
 8. Click (→) to upload firmware
@@ -64,7 +66,7 @@ examples
 
 ## 3️⃣ Tips:
 
-1. All current examples can be opened directly with Arduino IDE. The sketch file name matches its containing directory, and no speech-model filesystem upload is required.
+1. The `.ino` examples can be opened directly with Arduino IDE. The sketch file name matches its containing directory, and no speech-model filesystem upload is required. `SoundMeter` uses a PlatformIO `main.cpp`; see its README for build and upload commands.
 2. The board integrates PMU (Power management chip), which has short circuit and overload protection. By default, `PWRKEY` needs to be pressed for 6 seconds to turn off the power supply of the board. Press `PWRKEY` for 128 milliseconds to turn on the power supply. If you need to modify the shutdown pressing time, please refer to ` MinimalPowersExample`
 3. The `PMU` `TS Pin` detection function needs to be turned off if the charging function is required. There is no NTC sensor on the board by default, so you need to disable the `TS Pin` detection function to use the charging function normally. If the `TS Pin` detection function is not turned off, insert the battery After the PMU charging indicator will flash, charging will be disabled at this time
 4. The external `5 Pin` expansion socket of the board, 5V is shared with `PMU` `SYS`, please do not connect an external power supply load greater than 600mA, `3.3V` use `PMU` `DCDC3` power supply, the voltage can be adjusted, The maximum output current should not exceed `1A` , 5V is the silkscreen name of the board. The actual output is equal to the input voltage. The VSYS output is equal to the input voltage.

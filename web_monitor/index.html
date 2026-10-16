@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101a23">
+  <title>Sound event · Serial monitor</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">▂▆█▄▂</span><span>SOUND EVENT <span class="brand-sub">/ RECEIVER</span></span></div>
+      <span class="local-tag">LOCAL SERIAL MONITOR</span>
+    </header>
+
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">ESP32-S3 · ESP-NOW</p><h1 id="page-title">Listen to what’s happening.</h1><p class="subtitle">Connect your receiver to view incoming sound events and serial messages.</p></div>
+      <div class="connection-controls"><button id="connect" class="primary" disabled>Connect receiver <span aria-hidden="true">↗</span></button><button id="disconnect" disabled>Disconnect</button></div>
+    </section>
+
+    <div class="connection-strip"><span id="connection-state" class="status" data-state="disconnected">Disconnected</span><span class="divider"></span><span>115200 baud · 8N1</span><span class="receiver-details" id="receiver-details">No receiver connected</span></div>
+    <p id="notice" class="notice" role="status">Checking browser support…</p>
+
+    <section class="metrics" aria-label="Received event summary">
+      <article class="metric"><span class="metric-label">Events received</span><div class="metric-value" id="event-count">0</div><span class="metric-caption" id="latest-event">Waiting for the first event</span></article>
+      <article class="metric"><span class="metric-label">Latest sound level</span><div class="metric-value"><span id="sound-level">—</span><small>dBFS</small></div><span class="metric-caption">RMS level at event detection</span></article>
+      <article class="metric"><span class="metric-label">Noise floor</span><div class="metric-value"><span id="noise-floor">—</span><small>dBFS</small></div><span class="metric-caption">Background at the latest event</span></article>
+      <article class="metric accent"><span class="metric-label">Above the floor</span><div class="metric-value"><span id="rise-level">—</span><small>dB</small></div><span class="metric-caption" id="event-duration">No event received yet</span></article>
+    </section>
+
+    <section class="terminal-panel" aria-labelledby="terminal-title">
+      <div class="terminal-toolbar"><div class="terminal-heading"><span class="terminal-icon" aria-hidden="true">&gt;_</span><h2 id="terminal-title">Serial stream</h2><span id="line-count" class="line-count">0 lines</span></div><div class="log-actions"><button id="download" disabled>Download log</button><button id="clear" disabled>Clear</button></div></div>
+      <div class="terminal-options"><label><input id="autoscroll" type="checkbox" checked> Auto-scroll</label><label><input id="events-only" type="checkbox"> Events only</label><label><input id="beep-enabled" type="checkbox" checked> Beep on events</label><button id="test-beep" type="button">Test beep</button><span id="audio-status" role="status">Sound activates when you connect</span></div>
+      <div class="terminal" id="terminal" tabindex="0" aria-label="Serial messages" role="log" aria-live="off">
+        <div class="empty-state" id="empty-state"><span aria-hidden="true">⌁</span><strong id="empty-title">Ready when you are.</strong><p id="empty-description">Connect the ESP32 receiver by USB, then select it using “Connect receiver”.</p></div>
+        <div id="log-lines"></div>
+      </div>
+      <footer class="terminal-footer"><span><span class="legend-dot"></span> Sound events are highlighted</span><span id="last-message">No data yet</span></footer>
+    </section>
+
+    <aside class="help"><strong>Getting connected</strong><p>Use desktop Chrome or Edge on localhost. Close the PlatformIO serial monitor first so the browser can open the port. Power the T-Camera sender, allow five seconds for noise learning, then make a loud sound. The receiver reports its MAC and channel every five seconds.</p><p class="privacy">Messages stay in this browser tab. No data is uploaded or stored after you close it.</p></aside>
+    <noscript><p class="notice error">Enable JavaScript to use this serial monitor.</p></noscript>
+  </main>
+</body>
+</html>
